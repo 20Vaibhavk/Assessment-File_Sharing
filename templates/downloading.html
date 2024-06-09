@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Download Files</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <style>
+      body {
+        background-color: #e3f2fd;
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        width: 50%;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .flashes {
+        list-style-type: none;
+        padding: 0;
+      }
+      .flashes li {
+        margin: 5px 0;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .flashes .danger {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Files</h1>
+      <form action="{{ url_for('download_file') }}" method="POST">
+        <label for="files">Select a file to download:</label>
+        <select name="filename" id="files">
+          {% if spisok %} {% for file in spisok %}
+          <option value="{{ file }}">{{ file }}</option>
+          {% endfor %} {% else %}
+          <option value="">No files available</option>
+          {% endif %}
+        </select>
+        <input type="submit" value="Download this file" />
+      </form>
+
+      <form action="{{ url_for('home') }}" method="POST">
+        <input type="submit" value="Back to home page" />
+      </form>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
+    </div>
+  </body>
+</html>
